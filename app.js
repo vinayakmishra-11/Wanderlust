@@ -16,7 +16,7 @@ const listingRouter = require("./routes/listing.js");
 const seesion =require("express-session");
 const MongoStore = require('connect-mongo');
 const flash = require("connect-flash");
-const port = 3000;
+const port = 80;
 
 const dburl = process.env.ATLASDB;
 // Middleware
