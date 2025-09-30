@@ -1,0 +1,672 @@
+<% layout('layouts/boilerplate') %>
+
+<style>
+/* Edit Listing Page Styling */
+.edit-listing-container {
+    max-width: 630px;
+    margin: 0 auto;
+    padding: 40px 24px;
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+.page-title {
+    font-size: 32px;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 8px;
+}
+
+.page-subtitle {
+    font-size: 18px;
+    color: #717171;
+    font-weight: 400;
+}
+
+.breadcrumb-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 24px;
+    font-size: 14px;
+    color: #717171;
+}
+
+.breadcrumb-nav a {
+    color: #222;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.breadcrumb-nav a:hover {
+    text-decoration: underline;
+}
+
+.form-section {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 32px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+}
+
+.section-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 8px;
+}
+
+.section-subtitle {
+    font-size: 16px;
+    color: #717171;
+    margin-bottom: 24px;
+    line-height: 1.4;
+}
+
+.form-group {
+    margin-bottom: 24px;
+}
+
+.form-label {
+    font-size: 16px;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.form-control {
+    width: 100%;
+    padding: 16px;
+    border: 1px solid #b0b0b0;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: inherit;
+    transition: border-color 0.2s ease;
+    background: #fff;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #222;
+    box-shadow: 0 0 0 2px rgba(34, 34, 34, 0.1);
+}
+
+.form-control::placeholder {
+    color: #717171;
+}
+
+textarea.form-control {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.price-input-group {
+    position: relative;
+}
+
+.currency-symbol {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    font-weight: 600;
+    color: #222;
+    z-index: 2;
+}
+
+.price-input {
+    padding-left: 40px;
+}
+
+.row-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+/* Image Upload Section */
+.image-section {
+    background: #f7f7f7;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+}
+
+.current-image-container {
+    margin-bottom: 24px;
+}
+
+.current-image-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 12px;
+    display: block;
+}
+
+.current-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.file-upload-area {
+    border: 2px dashed #ddd;
+    border-radius: 12px;
+    padding: 32px 20px;
+    text-align: center;
+    background: #fff;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.file-upload-area:hover {
+    border-color: #222;
+    background: #f9f9f9;
+}
+
+.file-upload-area.dragover {
+    border-color: #ff385c;
+    background: #fff5f5;
+}
+
+.upload-icon {
+    font-size: 32px;
+    color: #ddd;
+    margin-bottom: 12px;
+}
+
+.upload-text {
+    font-size: 16px;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 6px;
+}
+
+.upload-subtext {
+    font-size: 14px;
+    color: #717171;
+}
+
+.file-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.image-preview {
+    display: none;
+    max-width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-top: 16px;
+    border: 1px solid #ddd;
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 32px;
+}
+
+.btn-primary-custom {
+    background: linear-gradient(to right, #e61e4d 0%, #e31c5f 50%, #d70466 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 16px 32px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 140px;
+}
+
+.btn-primary-custom:hover {
+    background: linear-gradient(to right, #d50027 0%, #d50027 50%, #d50027 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(230, 30, 77, 0.4);
+}
+
+.btn-secondary-custom {
+    background: white;
+    color: #222;
+    border: 1px solid #222;
+    border-radius: 8px;
+    padding: 16px 32px;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    min-width: 140px;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-secondary-custom:hover {
+    background: #f7f7f7;
+    color: #222;
+    text-decoration: none;
+    transform: translateY(-1px);
+}
+
+.validation-feedback {
+    font-size: 14px;
+    margin-top: 6px;
+    padding: 8px 12px;
+    border-radius: 6px;
+}
+
+.valid-feedback {
+    color: #008A05;
+    background: #F7FDF7;
+    border-left: 3px solid #008A05;
+    display: none;
+}
+
+.invalid-feedback {
+    color: #C13515;
+    background: #FEF7F0;
+    border-left: 3px solid #C13515;
+    display: none;
+}
+
+.form-control.is-valid {
+    border-color: #008A05;
+}
+
+.form-control.is-invalid {
+    border-color: #C13515;
+}
+
+.form-control.is-valid ~ .valid-feedback {
+    display: block;
+}
+
+.form-control.is-invalid ~ .invalid-feedback {
+    display: block;
+}
+
+/* Progress Steps */
+.progress-steps {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+.step {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ddd;
+    margin: 0 4px;
+}
+
+.step.active {
+    background: #222;
+}
+
+.step.completed {
+    background: #008A05;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .edit-listing-container {
+        padding: 24px 16px;
+    }
+    
+    .form-section {
+        padding: 24px 20px;
+    }
+    
+    .page-title {
+        font-size: 28px;
+    }
+    
+    .row-group {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .btn-primary-custom,
+    .btn-secondary-custom {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-title {
+        font-size: 24px;
+    }
+    
+    .section-title {
+        font-size: 20px;
+    }
+}
+
+/* Warning Banner */
+.warning-banner {
+    background: #fff4e6;
+    border: 1px solid #ffb020;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.warning-banner i {
+    color: #ffb020;
+    font-size: 20px;
+}
+
+.warning-text {
+    color: #b7791f;
+    font-size: 14px;
+    margin: 0;
+}
+</style>
+
+<div class="edit-listing-container">
+    <!-- Breadcrumb Navigation -->
+    <div class="breadcrumb-nav">
+        <a href="/listings">← Back to listings</a>
+        <span>•</span>
+        <span>Edit listing</span>
+    </div>
+
+    <!-- Header -->
+    <div class="page-header">
+        <h1 class="page-title">Edit your listing</h1>
+        <p class="page-subtitle">Update your property information to attract more guests</p>
+        
+        <!-- Progress Steps -->
+        <div class="progress-steps">
+            <div class="step completed"></div>
+            <div class="step active"></div>
+            <div class="step"></div>
+        </div>
+    </div>
+
+    <!-- Warning Banner -->
+    <div class="warning-banner">
+        <i class="fa-solid fa-exclamation-triangle"></i>
+        <p class="warning-text">
+            <strong>Important:</strong> Changes will be live immediately after saving. Make sure all information is accurate.
+        </p>
+    </div>
+
+    <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" 
+          novalidate
+          class="needs-validation"
+          enctype="multipart/form-data"
+          id="editListingForm">
+
+        <!-- Basic Information Section -->
+        <div class="form-section">
+            <h2 class="section-title">Property details</h2>
+            <p class="section-subtitle">Update your property's basic information and description.</p>
+            
+            <div class="form-group">
+                <label for="title" class="form-label">Property title</label>
+                <input 
+                    name="listing[title]" 
+                    id="title"
+                    value="<%= listing.title %>" 
+                    type="text"
+                    class="form-control"
+                    placeholder="Beautiful apartment in downtown"
+                    required>
+                <div class="valid-feedback">Perfect! Your title looks great.</div>
+                <div class="invalid-feedback">Please enter a descriptive title for your property.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="description" class="form-label">Description</label>
+                <textarea 
+                    class="form-control" 
+                    name="listing[description]" 
+                    id="description"
+                    placeholder="Tell guests what makes your place special..."
+                    required><%= listing.description %></textarea>
+                <div class="valid-feedback">Excellent description!</div>
+                <div class="invalid-feedback">Please provide a detailed description of your property.</div>
+            </div>
+        </div>
+
+        <!-- Location Section -->
+        <div class="form-section">
+            <h2 class="section-title">Location information</h2>
+            <p class="section-subtitle">Update your property's location details.</p>
+            
+            <div class="row-group">
+                <div class="form-group">
+                    <label for="country" class="form-label">Country</label>
+                    <input 
+                        name="listing[country]" 
+                        id="country"
+                        placeholder="India"
+                        value="<%= listing.country %>"
+                        type="text"
+                        class="form-control"
+                        required>
+                    <div class="valid-feedback">Country confirmed!</div>
+                    <div class="invalid-feedback">Please enter a valid country name.</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="location" class="form-label">City</label>
+                    <input 
+                        name="listing[location]" 
+                        id="location"
+                        placeholder="Mumbai, Maharashtra" 
+                        value="<%= listing.location %>" 
+                        type="text"
+                        class="form-control"
+                        required>
+                    <div class="valid-feedback">Location looks good!</div>
+                    <div class="invalid-feedback">Please enter a valid city/location.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Photo Section -->
+        <div class="form-section">
+            <h2 class="section-title">Update photos</h2>
+            <p class="section-subtitle">Change your property's main photo. High-quality images attract more guests.</p>
+            
+            <div class="image-section">
+                <div class="current-image-container">
+                    <label class="current-image-label">Current photo</label>
+                    <img src="<%= originalimage %>" alt="Current property image" class="current-image">
+                </div>
+                
+                <div class="form-group">
+                    <label for="image" class="form-label">Upload new photo (optional)</label>
+                    <div class="file-upload-area" id="fileUploadArea">
+                        <div class="upload-icon">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                        </div>
+                        <div class="upload-text">Choose a new photo</div>
+                        <div class="upload-subtext">Drag and drop or click to browse</div>
+                        <input 
+                            name="listing[image]"
+                            id="image"
+                            type="file"
+                            class="file-input"
+                            accept="image/*">
+                    </div>
+                    <img id="imagePreview" class="image-preview" alt="Preview">
+                    <div class="valid-feedback">New photo looks great!</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pricing Section -->
+        <div class="form-section">
+            <h2 class="section-title">Pricing</h2>
+            <p class="section-subtitle">Update your nightly rate to stay competitive in your area.</p>
+            
+            <div class="form-group">
+                <label for="price" class="form-label">Price per night</label>
+                <div class="price-input-group">
+                    <span class="currency-symbol">₹</span>
+                    <input 
+                        name="listing[price]" 
+                        id="price"
+                        placeholder="2500"
+                        value="<%= listing.price %>" 
+                        type="number"
+                        min="1"
+                        class="form-control price-input"
+                        required>
+                </div>
+                <div class="valid-feedback">Great pricing!</div>
+                <div class="invalid-feedback">Please enter a valid price per night.</div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <a href="/listings/<%= listing._id %>" class="btn-secondary-custom">
+                <i class="fa-solid fa-arrow-left me-2"></i>
+                Cancel
+            </a>
+            <button type="submit" class="btn-primary-custom">
+                <i class="fa-solid fa-save me-2"></i>
+                Save changes
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+// Form validation and interactions
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('editListingForm');
+    const fileUploadArea = document.getElementById('fileUploadArea');
+    const fileInput = document.getElementById('image');
+    const imagePreview = document.getElementById('imagePreview');
+
+    // File upload drag and drop
+    fileUploadArea.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        fileUploadArea.classList.add('dragover');
+    });
+
+    fileUploadArea.addEventListener('dragleave', function(e) {
+        e.preventDefault();
+        fileUploadArea.classList.remove('dragover');
+    });
+
+    fileUploadArea.addEventListener('drop', function(e) {
+        e.preventDefault();
+        fileUploadArea.classList.remove('dragover');
+        
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            fileInput.files = files;
+            handleFileSelect();
+        }
+    });
+
+    // File input change
+    fileInput.addEventListener('change', handleFileSelect);
+
+    function handleFileSelect() {
+        const file = fileInput.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imagePreview.src = e.target.result;
+                imagePreview.style.display = 'block';
+                fileUploadArea.style.padding = '20px';
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    // Form validation
+    form.addEventListener('submit', function(e) {
+        if (!form.checkValidity()) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        form.classList.add('was-validated');
+    });
+
+    // Real-time validation
+    const inputs = form.querySelectorAll('input, textarea');
+    inputs.forEach(input => {
+        input.addEventListener('blur', function() {
+            if (this.value.trim() !== '') {
+                if (this.checkValidity()) {
+                    this.classList.remove('is-invalid');
+                    this.classList.add('is-valid');
+                } else {
+                    this.classList.remove('is-valid');
+                    this.classList.add('is-invalid');
+                }
+            }
+        });
+
+        input.addEventListener('input', function() {
+            if (this.classList.contains('is-invalid') || this.classList.contains('is-valid')) {
+                if (this.checkValidity()) {
+                    this.classList.remove('is-invalid');
+                    this.classList.add('is-valid');
+                } else {
+                    this.classList.remove('is-valid');
+                    this.classList.add('is-invalid');
+                }
+            }
+        });
+    });
+
+    // Price formatting
+    const priceInput = document.getElementById('price');
+    priceInput.addEventListener('input', function() {
+        // Remove non-numeric characters except decimal point
+        this.value = this.value.replace(/[^\d]/g, '');
+    });
+
+    // Confirmation on form submission
+    form.addEventListener('submit', function(e) {
+        if (form.checkValidity()) {
+            const confirmSave = confirm('Are you sure you want to save these changes? They will be live immediately.');
+            if (!confirmSave) {
+                e.preventDefault();
+            }
+        }
+    });
+});
+</script>

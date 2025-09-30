@@ -1,0 +1,533 @@
+<% layout('layouts/boilerplate') %>
+
+<style>
+/* Login Page Styling */
+.login-container {
+    min-height: calc(100vh - 160px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.login-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    padding: 48px;
+    width: 100%;
+    max-width: 440px;
+    position: relative;
+    overflow: hidden;
+}
+
+.login-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(to right, #e61e4d 0%, #e31c5f 50%, #d70466 100%);
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.login-logo {
+    font-size: 32px;
+    color: #ff385c;
+    margin-bottom: 16px;
+}
+
+.login-title {
+    font-size: 28px;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 8px;
+}
+
+.login-subtitle {
+    font-size: 16px;
+    color: #717171;
+    font-weight: 400;
+}
+
+.login-form {
+    width: 100%;
+}
+
+.form-group {
+    margin-bottom: 24px;
+    position: relative;
+}
+
+.form-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.form-control {
+    width: 100%;
+    padding: 16px;
+    border: 1.5px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: inherit;
+    transition: all 0.2s ease;
+    background: #fff;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #222;
+    box-shadow: 0 0 0 3px rgba(34, 34, 34, 0.1);
+}
+
+.form-control::placeholder {
+    color: #b0b0b0;
+}
+
+.input-icon {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #717171;
+    font-size: 16px;
+    pointer-events: none;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #717171;
+    cursor: pointer;
+    font-size: 16px;
+    transition: color 0.2s ease;
+}
+
+.password-toggle:hover {
+    color: #222;
+}
+
+.login-button {
+    width: 100%;
+    background: linear-gradient(to right, #e61e4d 0%, #e31c5f 50%, #d70466 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 8px;
+    position: relative;
+    overflow: hidden;
+}
+
+.login-button:hover {
+    background: linear-gradient(to right, #d50027 0%, #d50027 50%, #d50027 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(230, 30, 77, 0.4);
+}
+
+.login-button:active {
+    transform: translateY(0);
+}
+
+.login-button:disabled {
+    background: #ddd;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.button-text {
+    transition: opacity 0.2s ease;
+}
+
+.button-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.login-button.loading .button-text {
+    opacity: 0;
+}
+
+.login-button.loading .button-spinner {
+    opacity: 1;
+}
+
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.login-links {
+    text-align: center;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.login-link {
+    color: #222;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    transition: color 0.2s ease;
+}
+
+.login-link:hover {
+    color: #ff385c;
+    text-decoration: none;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    margin: 24px 0;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #ddd;
+}
+
+.divider-text {
+    padding: 0 16px;
+    color: #717171;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.demo-credentials {
+    background: #f7f7f7;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 24px;
+    border-left: 4px solid #ff385c;
+}
+
+.demo-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 8px;
+}
+
+.demo-info {
+    font-size: 13px;
+    color: #717171;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.validation-feedback {
+    font-size: 14px;
+    margin-top: 6px;
+    padding: 8px 12px;
+    border-radius: 6px;
+}
+
+.invalid-feedback {
+    color: #c13515;
+    background: #fef7f0;
+    border-left: 3px solid #c13515;
+    display: none;
+}
+
+.form-control.is-invalid {
+    border-color: #c13515;
+}
+
+.form-control.is-invalid ~ .invalid-feedback {
+    display: block;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .login-container {
+        padding: 24px 16px;
+        background: #fff;
+    }
+    
+    .login-card {
+        padding: 32px 24px;
+        box-shadow: none;
+        border-radius: 0;
+    }
+    
+    .login-title {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-card {
+        padding: 24px 20px;
+    }
+    
+    .login-title {
+        font-size: 22px;
+    }
+}
+
+/* Animation for form appearance */
+.login-card {
+    animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Focus states for accessibility */
+.form-control:focus,
+.login-button:focus {
+    outline: 2px solid #ff385c;
+    outline-offset: 2px;
+}
+
+/* Security indicator */
+.security-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 24px;
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    font-size: 12px;
+    color: #6c757d;
+}
+
+.security-badge i {
+    color: #28a745;
+}
+</style>
+
+<div class="login-container">
+    <div class="login-card">
+        <!-- Header -->
+        <div class="login-header">
+            <div class="login-logo">
+                <i class="fa-solid fa-compass"></i>
+            </div>
+            <h1 class="login-title">Welcome back</h1>
+            <p class="login-subtitle">Sign in to your Wanderlust account</p>
+        </div>
+
+        <!-- Demo Credentials -->
+        <div class="demo-credentials">
+            <div class="demo-title">Demo Credentials</div>
+            <p class="demo-info">
+                <strong>Username:</strong> demo_wande<br>
+                <strong>Password:</strong> demo123
+            </p>
+        </div>
+
+        <!-- Login Form -->
+        <form action="/login" method="post" class="login-form needs-validation" novalidate id="loginForm">
+            <div class="form-group">
+                <label for="username" class="form-label">Email or Username</label>
+                <div style="position: relative;">
+                    <input 
+                        name="username"
+                        id="username"
+                        type="text"
+                        class="form-control"
+                        placeholder="Enter your email or username"
+                        required
+                        autocomplete="username">
+                    <i class="input-icon fa-solid fa-user"></i>
+                </div>
+                <div class="invalid-feedback">Please enter your email or username.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="password" class="form-label">Password</label>
+                <div style="position: relative;">
+                    <input 
+                        name="password"
+                        id="password"
+                        type="password"
+                        class="form-control"
+                        placeholder="Enter your password"
+                        required
+                        autocomplete="current-password">
+                    <i class="password-toggle fa-solid fa-eye" id="passwordToggle"></i>
+                </div>
+                <div class="invalid-feedback">Please enter your password.</div>
+            </div>
+
+            <button type="submit" class="login-button" id="loginButton">
+                <span class="button-text">
+                    <i class="fa-solid fa-sign-in-alt me-2"></i>
+                    Sign in
+                </span>
+                <div class="button-spinner">
+                    <div class="spinner"></div>
+                </div>
+            </button>
+        </form>
+
+        <!-- Links -->
+        <div class="login-links">
+            <p style="margin-bottom: 16px; color: #717171; font-size: 14px;">
+                Don't have an account? 
+                <a href="/signup" class="login-link">Sign up here</a>
+            </p>
+            <!-- <a href="/forgot-password" class="login-link">Forgot your password?</a> -->
+        </div>
+
+        <!-- Security Badge -->
+        <div class="security-badge">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>Your information is protected with industry-standard encryption</span>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('loginForm');
+    const loginButton = document.getElementById('loginButton');
+    const passwordToggle = document.getElementById('passwordToggle');
+    const passwordInput = document.getElementById('password');
+    const usernameInput = document.getElementById('username');
+
+    // Password visibility toggle
+    passwordToggle.addEventListener('click', function() {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        
+        // Toggle icon
+        if (type === 'text') {
+            passwordToggle.classList.remove('fa-eye');
+            passwordToggle.classList.add('fa-eye-slash');
+        } else {
+            passwordToggle.classList.remove('fa-eye-slash');
+            passwordToggle.classList.add('fa-eye');
+        }
+    });
+
+    // Form validation
+    form.addEventListener('submit', function(e) {
+        if (!form.checkValidity()) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Add validation classes
+            const inputs = form.querySelectorAll('input[required]');
+            inputs.forEach(input => {
+                if (!input.checkValidity()) {
+                    input.classList.add('is-invalid');
+                } else {
+                    input.classList.remove('is-invalid');
+                }
+            });
+        } else {
+            // Show loading state but don't prevent form submission
+            loginButton.classList.add('loading');
+            loginButton.disabled = true;
+            
+            // Allow the form to submit normally
+            // The form will navigate to the action URL
+        }
+        
+        form.classList.add('was-validated');
+    });
+
+    // Real-time validation
+    const inputs = form.querySelectorAll('input[required]');
+    inputs.forEach(input => {
+        input.addEventListener('input', function() {
+            if (this.checkValidity()) {
+                this.classList.remove('is-invalid');
+            } else if (this.value.trim() !== '') {
+                this.classList.add('is-invalid');
+            }
+        });
+
+        input.addEventListener('blur', function() {
+            if (this.value.trim() !== '') {
+                if (this.checkValidity()) {
+                    this.classList.remove('is-invalid');
+                } else {
+                    this.classList.add('is-invalid');
+                }
+            }
+        });
+    });
+
+    // Demo credentials auto-fill
+    const demoCredentials = document.querySelector('.demo-credentials');
+    if (demoCredentials) {
+        demoCredentials.addEventListener('click', function() {
+            usernameInput.value = 'demo@wanderlust.com';
+            passwordInput.value = 'demo123';
+            
+            // Trigger validation
+            usernameInput.dispatchEvent(new Event('input'));
+            passwordInput.dispatchEvent(new Event('input'));
+        });
+        
+        // Add cursor pointer
+        demoCredentials.style.cursor = 'pointer';
+        demoCredentials.title = 'Click to auto-fill demo credentials';
+    }
+
+    // Enter key handling
+    form.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            // Let the form submit naturally, don't prevent default
+            const activeElement = document.activeElement;
+            if (activeElement.tagName === 'INPUT') {
+                // If user is in an input field, submit the form
+                form.requestSubmit();
+            }
+        }
+    });
+
+    // Reset loading state if form submission fails
+    window.addEventListener('pageshow', function() {
+        loginButton.classList.remove('loading');
+        loginButton.disabled = false;
+    });
+});
+</script>

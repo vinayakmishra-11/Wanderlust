@@ -1,0 +1,102 @@
+<!-- filepath: a:\Users\vinay\Desktop\MAJORPROJECt\views\includes\navbar.ejs -->
+<nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top" style="height: 80px; box-shadow: 0 1px 2px rgba(0,0,0,0.08);">
+  <div class="container-fluid px-4">
+    <!-- Brand/Logo -->
+    <a class="navbar-brand d-flex align-items-center" href="/listings" style="font-size: 24px; font-weight: 600; color: #ff385c;">
+      <i class="fa-solid fa-compass me-2"></i>
+      <span class="d-none d-md-inline">Wanderlust</span>
+    </a>
+
+    <!-- Center Search Bar (Hidden on mobile) -->
+    <div class="d-none d-lg-flex search-bar mx-auto">
+      <div class="search-container d-flex align-items-center border rounded-pill px-3 py-2" style="box-shadow: 0 1px 2px rgba(0,0,0,0.08); border-color: #ddd;">
+        <div class="search-item px-3">
+          <div style="font-size: 12px; font-weight: 600;">Where</div>
+          <input type="text" placeholder="Search destinations" class="border-0 bg-transparent" style="outline: none; font-size: 14px;">
+        </div>
+        <div class="border-start mx-2" style="height: 24px;"></div>
+        <div class="search-item px-3">
+          <div style="font-size: 12px; font-weight: 600;">Check in</div>
+          <div style="font-size: 14px; color: #717171;">Add dates</div>
+        </div>
+        <div class="border-start mx-2" style="height: 24px;"></div>
+        <div class="search-item px-3">
+          <div style="font-size: 12px; font-weight: 600;">Check out</div>
+          <div style="font-size: 14px; color: #717171;">Add dates</div>
+        </div>
+        <div class="border-start mx-2" style="height: 24px;"></div>
+        <div class="search-item px-3">
+          <div style="font-size: 12px; font-weight: 600;">Who</div>
+          <div style="font-size: 14px; color: #717171;">Add guests</div>
+        </div>
+        <button class="btn btn-primary rounded-circle ms-2 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background: #ff385c; border: none;">
+          <i class="fa-solid fa-search" style="font-size: 12px;"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu Toggle -->
+    <button 
+      class="navbar-toggler border-0" 
+      type="button" 
+      data-bs-toggle="collapse" 
+      data-bs-target="#navbarNavAltMarkup"
+      aria-controls="navbarNavAltMarkup"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Right Side Menu -->
+    <div class="d-none d-lg-flex align-items-center">
+      <a class="nav-link px-3 py-2 rounded-pill me-2" href="/listings/new" style="font-weight: 500; color: #222; transition: background 0.2s;" onmouseover="this.style.backgroundColor='#f7f7f7'" onmouseout="this.style.backgroundColor='transparent'">
+        Airbnb your home
+      </a>
+      
+      <!-- Profile Menu -->
+      <div class="dropdown">
+        <button class="btn border rounded-pill d-flex align-items-center px-3 py-2" style="border-color: #ddd;" data-bs-toggle="dropdown">
+          <i class="fa-solid fa-bars me-2"></i>
+          <i class="fa-solid fa-user-circle" style="font-size: 24px; color: #717171;"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end mt-2" style="border-radius: 12px; box-shadow: 0 6px 16px rgba(0,0,0,0.12); border: 1px solid #ddd;">
+          <% if (!currentUser) { %>
+            <li><a class="dropdown-item py-2" href="/signup" style="font-weight: 600;">Sign up</a></li>
+            <li><a class="dropdown-item py-2" href="/login">Log in</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item py-2" href="/listings/new">Airbnb your home</a></li>
+            <li><a class="dropdown-item py-2" href="#" >Help Center</a></li>
+          <% } else { %>
+            <li><span class="dropdown-item-text py-2" style="font-weight: 600;">Hello, <%= currentUser.username %></span></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item py-2" href="/listings">Messages</a></li>
+            <li><a class="dropdown-item py-2" href="/listings">Trips</a></li>
+            <li><a class="dropdown-item py-2" href="/listings">Wishlists</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item py-2" href="/listings/new">Airbnb your home</a></li>
+            <li><a class="dropdown-item py-2" href="#" >Account</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item py-2" href="/logout">Log out</a></li>
+          <% } %>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Mobile Collapsed Menu -->
+    <div class="collapse navbar-collapse d-lg-none" id="navbarNavAltMarkup">
+      <div class="navbar-nav mt-3">
+        <a class="nav-link py-2" href="/listings">Explore</a>
+        <a class="nav-link py-2" href="/listings/new">Airbnb Your Home</a>
+        <hr>
+        <% if (!currentUser) { %>
+          <a class="nav-link py-2" href="/signup"><strong>Sign Up</strong></a>
+          <a class="nav-link py-2" href="/login"><strong>Log in</strong></a>
+        <% } else { %>
+          <span class="nav-link py-2">Hello, <%= currentUser.username %></span>
+          <a class="nav-link py-2" href="/logout"><strong>Log out</strong></a>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</nav>
