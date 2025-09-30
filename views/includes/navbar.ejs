@@ -1,5 +1,5 @@
 <!-- filepath: a:\Users\vinay\Desktop\MAJORPROJECt\views\includes\navbar.ejs -->
-<nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top" style="height: 80px; box-shadow: 0 1px 2px rgba(0,0,0,0.08);">
+<nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top" style="height: 80px; box-shadow: 0 1px 2px rgba(0,0,0,0.08); background-color: white !important;">
   <div class="container-fluid px-4">
     <!-- Brand/Logo -->
     <a class="navbar-brand d-flex align-items-center" href="/listings" style="font-size: 24px; font-weight: 600; color: #ff385c;">
@@ -37,13 +37,14 @@
 
     <!-- Mobile Menu Toggle -->
     <button 
-      class="navbar-toggler border-0" 
+      class="navbar-toggler border d-lg-none" 
       type="button" 
       data-bs-toggle="collapse" 
       data-bs-target="#navbarNavAltMarkup"
       aria-controls="navbarNavAltMarkup"
       aria-expanded="false"
       aria-label="Toggle navigation"
+      style="border-color: #ddd !important;"
     >
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -84,17 +85,17 @@
     </div>
 
     <!-- Mobile Collapsed Menu -->
-    <div class="collapse navbar-collapse d-lg-none" id="navbarNavAltMarkup">
-      <div class="navbar-nav mt-3">
-        <a class="nav-link py-2" href="/listings">Explore</a>
-        <a class="nav-link py-2" href="/listings/new">Airbnb Your Home</a>
-        <hr>
+    <div class="collapse navbar-collapse d-lg-none" id="navbarNavAltMarkup" style="background-color: white !important;">
+      <div class="navbar-nav mt-3" style="padding: 0 16px;">
+        <a class="nav-link py-2" href="/listings" style="color: #222 !important;">Explore</a>
+        <a class="nav-link py-2" href="/listings/new" style="color: #222 !important;">Airbnb Your Home</a>
+        <hr style="margin: 8px 0; border-color: #ebebeb;">
         <% if (!currentUser) { %>
-          <a class="nav-link py-2" href="/signup"><strong>Sign Up</strong></a>
-          <a class="nav-link py-2" href="/login"><strong>Log in</strong></a>
+          <a class="nav-link py-2" href="/signup" style="color: #222 !important;"><strong>Sign Up</strong></a>
+          <a class="nav-link py-2" href="/login" style="color: #222 !important;"><strong>Log in</strong></a>
         <% } else { %>
-          <span class="nav-link py-2">Hello, <%= currentUser.username %></span>
-          <a class="nav-link py-2" href="/logout"><strong>Log out</strong></a>
+          <span class="nav-link py-2" style="color: #717171;">Hello, <%= currentUser.username %></span>
+          <a class="nav-link py-2" href="/logout" style="color: #222 !important;"><strong>Log out</strong></a>
         <% } %>
       </div>
     </div>
